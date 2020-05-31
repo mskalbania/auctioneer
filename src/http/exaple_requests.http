@@ -1,0 +1,18 @@
+GET http://localhost:8080/api/v1/item
+
+###
+
+GET http://localhost:8080/api/v1/item?like=s10
+
+###
+
+GET http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1
+
+###
+
+POST http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1/bid
+Content-Type: application/json
+
+{
+  "amount": "6001.00"
+}
