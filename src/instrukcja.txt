@@ -1,0 +1,12 @@
+Run application with this arguments:
+
+java -jar auctioneer-1.0.jar --server.port={port} --logging.level.root={loglvl} --spring.datasource.url={dbUrl} --spring.datasource.username={user} --spring.datasource.password={pswd}
+
+If not passed defaults are:
+port=8080
+dbUrl=jdbc:postgresql://localhost:5432/auctioneer_db
+user=admin
+pswd=admin
+loglvl=INFO
+
+java -jar auctioneer-1.0.jar --logging.level.root=INFO --server.port=8080 --spring.datasource.url=jdbc:postgresql://localhost:5432/auctioneer_db --spring.datasource.username=admin --spring.datasource.password=admin

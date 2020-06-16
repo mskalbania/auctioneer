@@ -2,6 +2,8 @@ package edu.auctioneer.repository;
 
 import edu.auctioneer.entity.ItemEntity;
 import edu.auctioneer.exception.ItemNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ import java.util.UUID;
 @Repository
 @Transactional
 public class ItemRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ItemRepository.class);
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -36,6 +40,7 @@ public class ItemRepository {
                                 .setParameter("id", id)
                                 .getSingleResult();
         } catch (NoResultException ex) {
+            LOG.error("Item with id {} not found in database", id.toString());
             throw new ItemNotFoundException(id.toString());
         }
     }
@@ -43,6 +48,7 @@ public class ItemRepository {
     public UUID save(ItemEntity itemEntity) {
         entityManager.persist(itemEntity);
         entityManager.flush();
+        LOG.debug("Successfully persisted item {}", itemEntity.toString());
         return itemEntity.getId();
     }
 }

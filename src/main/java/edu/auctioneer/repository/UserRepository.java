@@ -4,6 +4,8 @@ import edu.auctioneer.entity.BidEntity;
 import edu.auctioneer.entity.ItemEntity;
 import edu.auctioneer.entity.UserEntity;
 import edu.auctioneer.exception.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,8 @@ import java.util.UUID;
 @Repository
 @Transactional
 public class UserRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserRepository.class);
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -36,6 +40,7 @@ public class UserRepository {
                                 .setParameter("id", id)
                                 .getSingleResult();
         } catch (NoResultException ex) {
+            LOG.error("Item with id {} not found in database", id.toString());
             throw new UserNotFoundException(id.toString());
         }
     }

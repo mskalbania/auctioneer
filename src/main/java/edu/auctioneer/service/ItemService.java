@@ -8,6 +8,8 @@ import edu.auctioneer.model.Bid;
 import edu.auctioneer.model.Item;
 import edu.auctioneer.repository.ItemRepository;
 import edu.auctioneer.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ItemService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ItemService.class);
 
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
@@ -55,6 +59,7 @@ public class ItemService {
             newBid.setItem(itemEntity);
             itemEntity.getBids().add(newBid);
         } else {
+            LOG.error("Unable to place bid {} for item {}", bid.toString(), id);
             throw new PriceToLowException(id, bid.getAmount());
         }
     }
