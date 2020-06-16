@@ -1,6 +1,6 @@
 package edu.auctioneer.controller;
 
-import edu.auctioneer.model.User;
+import edu.auctioneer.api.User;
 import edu.auctioneer.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

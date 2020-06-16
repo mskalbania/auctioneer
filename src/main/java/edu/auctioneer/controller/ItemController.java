@@ -1,7 +1,7 @@
 package edu.auctioneer.controller;
 
-import edu.auctioneer.model.Bid;
-import edu.auctioneer.model.Item;
+import edu.auctioneer.api.Bid;
+import edu.auctioneer.api.Item;
 import edu.auctioneer.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package edu.auctioneer.exception;
 
-import edu.auctioneer.model.ErrorResponse;
+import edu.auctioneer.api.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

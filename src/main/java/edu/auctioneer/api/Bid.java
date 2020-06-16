@@ -1,4 +1,4 @@
-package edu.auctioneer.model;
+package edu.auctioneer.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
