@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Data
@@ -25,4 +26,10 @@ public class BidEntity {
     @Column(name = "created_on", updatable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
+
+    @ManyToOne(fetch = LAZY)
+    private ItemEntity item;
+
+    @ManyToOne(fetch = LAZY)
+    private UserEntity owner;
 }

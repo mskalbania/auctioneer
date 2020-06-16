@@ -30,6 +30,12 @@ public class ItemController {
         return ResponseEntity.ok(itemService.getById(id));
     }
 
+    @PostMapping
+    public ResponseEntity<String> add(@RequestBody @Valid Item item) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(itemService.addItem(item));
+    }
+
     @PostMapping("/{id}/bid")
     public ResponseEntity<?> bid(@PathVariable String id,
                                  @RequestBody @Valid Bid bid) {

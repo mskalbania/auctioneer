@@ -3,31 +3,28 @@ package edu.auctioneer.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
 @Data
 @Builder
-public class Bid {
+public class User {
 
     @JsonProperty(access = READ_ONLY)
     private UUID id;
 
-    private UUID bidderId;
-
-    @JsonProperty(access = READ_ONLY)
-    private UUID targetItemId;
-
     @NotNull
-    @DecimalMin(value = "0.00", inclusive = false)
-    private BigDecimal amount;
+    @Length(min = 3, max = 10)
+    private String name;
 
     @JsonProperty(access = READ_ONLY)
-    private LocalDateTime createdOn;
+    private List<Bid> bids;
+
+    @JsonProperty(access = READ_ONLY)
+    private List<Item> items;
 }

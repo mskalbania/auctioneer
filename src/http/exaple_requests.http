@@ -1,18 +1,87 @@
+###############
+# ITEMS API #
+###############
+#QUERY ALL
 GET http://localhost:8080/api/v1/item
-
 ###
 
+#QUERY BY PATTERN
 GET http://localhost:8080/api/v1/item?like=s10
-
 ###
 
+#QUERY SINGLE WITH DETAILS
 GET http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1
-
 ###
 
+#ADD NEW
+POST http://localhost:8080/api/v1/item
+Content-Type: application/json
+
+{
+  "ownerId": "99459554-c761-4f75-aa7a-63cec21661bd",
+  "name": "SGS2",
+  "initialPrice": "100.00"
+}
+
+###############
+# BIDDING API #
+###############
+#CORRECT BID
 POST http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1/bid
 Content-Type: application/json
 
 {
-  "amount": "6001.00"
+  "bidderId": "99459554-c761-4f75-aa7a-63cec21661bd",
+  "amount": "6002.00"
 }
+###
+
+#INCORRECT BID - PRICE TOO LOW
+POST http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1/bid
+Content-Type: application/json
+
+{
+  "bidderId": "99459554-c761-4f75-aa7a-63cec21661bd",
+  "amount": "100.00"
+}
+###
+
+#INCORRECT BID - INCORRECT USER
+POST http://localhost:8080/api/v1/item/56548739-b643-45be-90ba-a1b58787b9c1/bid
+Content-Type: application/json
+
+{
+  "bidderId": "56548739-b643-45be-90ba-a1b58787b9c1",
+  "amount": "6002.00"
+}
+###
+
+###############
+# USERS API #
+###############
+#GET CORRECT
+GET http://localhost:8080/api/v1/user/99459554-c761-4f75-aa7a-63cec21661bd
+###
+
+#GET NOT FOUND
+GET http://localhost:8080/api/v1/user/56548739-b643-45be-90ba-a1b58787b9c1
+###
+
+#ADD CORRECT
+POST http://localhost:8080/api/v1/user
+Content-Type: application/json
+
+{
+  "name": "RadekRadek"
+}
+###
+
+#ADD WRONG
+POST http://localhost:8080/api/v1/user
+Content-Type: application/json
+
+{
+"name": "RadekRadekRadekRadekRadekRadekRadekRadekRadekRadekRadekRadekRadekRadek"
+}
+
+

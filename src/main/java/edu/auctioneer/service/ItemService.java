@@ -2,9 +2,12 @@ package edu.auctioneer.service;
 
 import edu.auctioneer.entity.BidEntity;
 import edu.auctioneer.entity.ItemEntity;
+import edu.auctioneer.entity.UserEntity;
+import edu.auctioneer.exception.PriceToLowException;
 import edu.auctioneer.model.Bid;
 import edu.auctioneer.model.Item;
 import edu.auctioneer.repository.ItemRepository;
+import edu.auctioneer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +21,18 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
         this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Item> getAll(String pattern) {
         return itemRepository.findAllBy(pattern).stream()
                              .map(entity -> Item.builder()
                                                 .id(entity.getId())
+                                                .ownerId(entity.getOwner().getId())
                                                 .name(entity.getName())
                                                 .initialPrice(entity.getInitialPrice())
                                                 .highestBid(highestBid(entity))
@@ -39,24 +45,31 @@ public class ItemService {
     }
 
     public void placeBid(String id, Bid bid) {
-        ItemEntity entity = itemRepository.findById(UUID.fromString(id));
-        BigDecimal highestBid = highestBid(entity);
+        UserEntity userEntity = userRepository.getById(UUID.fromString(bid.getBidderId().toString()));
+        ItemEntity itemEntity = itemRepository.findById(UUID.fromString(id));
+        BigDecimal highestBid = highestBid(itemEntity);
         if (bid.getAmount().compareTo(highestBid) > 0) {
             BidEntity newBid = new BidEntity();
             newBid.setAmount(bid.getAmount());
-            entity.getBids().add(newBid);
+            newBid.setOwner(userEntity);
+            newBid.setItem(itemEntity);
+            itemEntity.getBids().add(newBid);
+        } else {
+            throw new PriceToLowException(id, bid.getAmount());
         }
     }
 
     private Item mapToItem(ItemEntity entity) {
         return Item.builder()
                    .id(entity.getId())
+                   .ownerId(entity.getOwner().getId())
                    .name(entity.getName())
                    .initialPrice(entity.getInitialPrice())
                    .highestBid(highestBid(entity))
                    .bids(entity.getBids().stream()
                                .map(bidEntity -> Bid.builder()
                                                     .id(bidEntity.getId())
+                                                    .bidderId(bidEntity.getOwner().getId())
                                                     .createdOn(bidEntity.getCreatedOn())
                                                     .amount(bidEntity.getAmount())
                                                     .build())
@@ -69,5 +82,15 @@ public class ItemService {
                          .findFirst()
                          .map(BidEntity::getAmount)
                          .orElse(null);
+    }
+
+    public String addItem(Item item) {
+        UserEntity userEntity = userRepository.getById(UUID.fromString(item.getOwnerId().toString()));
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setName(item.getName());
+        itemEntity.setInitialPrice(item.getInitialPrice());
+        itemEntity.setOwner(userEntity);
+        UUID itemId = itemRepository.save(itemEntity);
+        return itemId.toString();
     }
 }

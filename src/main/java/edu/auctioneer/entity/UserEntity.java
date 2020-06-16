@@ -1,10 +1,8 @@
 package edu.auctioneer.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,10 +11,10 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
-@Data
 @Entity
-@Table(name = "item")
-public class ItemEntity {
+@Data
+@Table(name = "users")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = AUTO, generator = "uuid_generator")
@@ -25,13 +23,9 @@ public class ItemEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "initial_price", nullable = false)
-    private BigDecimal initialPrice;
-
-    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true, mappedBy = "item")
-    @OrderBy(clause = "created_on desc")
+    @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "owner")
     private List<BidEntity> bids = new ArrayList<>();
 
-    @ManyToOne(fetch = LAZY)
-    private UserEntity owner;
+    @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "owner")
+    private List<ItemEntity> items = new ArrayList<>();
 }
