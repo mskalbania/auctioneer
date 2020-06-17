@@ -34,13 +34,73 @@
     <hr>
     <div class="row">
         <div class="col-6">
-            <div class="row"><h3>Item panel:</h3></div>
+            <div class="row"><h3>Item panel: </h3></div>
+            <div class="row"><h4>Add: </h4></div>
+            <div class="row">
+                <form onsubmit="return false">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <input type="text" class="form-control mb-2" id="add_item_form_name"
+                                   placeholder="Enter name">
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control mb-2" id="add_item_form_owner"
+                                   placeholder="Enter user id">
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control mb-2" id="add_item_form_initial"
+                                   placeholder="Enter initial price">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id="add_item_btn" class="btn btn-primary mb-2">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-2"><h4>ItemId: </h4></div>
+                <div class="col-10"><h4 id="item_id"></h4></div>
+            </div>
+            <div class="row">
+                <div class="col-2"><h4>Error: </h4></div>
+                <div class="col-10"><h5 id="item_add_error"></h5></div>
+            </div>
+            <hr>
+            <hr>
+            <hr>
+            <div class="row"><h4>Search Specific: </h4></div>
+            <div class="row">
+                <form onsubmit="return false">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <input type="text" class="form-control mb-2" id="search_item_form"
+                                   placeholder="Enter item id">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id="search_item_btn" class="btn btn-primary mb-2">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <h5 id="find_item_error"></h5>
+            </div>
+            <div class="row">
+                <div class="col" id="find_item_success"></div>
+            </div>
+            <hr>
+            <hr>
+            <hr>
+            <div class="row"><h4>Search All: </h4></div>
             <div class="row">
                 <form onsubmit="return false">
                     <div class="form-group">
-                        <input type="search" class="form-control" id="search_item" placeholder="Search">
+                        <input type="search" class="form-control" id="search_items" placeholder="Search">
                     </div>
                 </form>
+            </div>
+            <div class="row">
+                <div id="search_items_result"></div>
             </div>
         </div>
         <div class="col-6">

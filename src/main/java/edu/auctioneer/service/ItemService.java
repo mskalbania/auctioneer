@@ -83,6 +83,9 @@ public class ItemService {
     }
 
     private BigDecimal highestBid(ItemEntity itemEntity) {
+        if (itemEntity.getBids().isEmpty()) {
+           return itemEntity.getInitialPrice();
+        }
         return itemEntity.getBids().stream()
                          .findFirst()
                          .map(BidEntity::getAmount)
